@@ -1,0 +1,11 @@
+--- Проверь содержит ли package.json все нужные тебе зависимости
+--- Сделай npm i
+--- Проинициализируй eslint npx eslint --init
+--- Создай базу данных
+--- В файле .env пропиши нужный тебе порт (PORT) для сервера, настройки для database url (postgresUser, postgresUserPass, databaseName) и твой SESSION_SECRET ключ
+--- Сделай npx sequelize-cli init
+--- В database.json в конфиге dev напиши "use_env_variable": "DATABASE_URL"
+--- Проверь путь импорта sequelize на 9 строке в файле app.js (const { sequelize } = require('../db/models')) и раскоментируй эту строчку
+--- Запусти сервер npm run dev
+--- Используй renderTemplate для рендера реакт модулей (функция универсальная)
+--- Готово, создавай модели sequelize, react компоненты, вперед работать!
