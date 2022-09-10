@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "initdb": "npx sequelize db:create\nnpx sequelize-cli db:migrate:undo:all\nnpx sequelize-cli db:migrate\nnpx sequelize-cli db:seed:all\n",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js --ignore sessions --ext js,jsx"
   },
@@ -17,7 +18,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/register": "^7.18.9",
     "bcrypt": "^5.0.1",
-    "bootstrap": "^5.2.0",
+    "bootstrap": "^5.2.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
@@ -44,10 +45,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndrewNagikh/core-express-blog-anonymous.git"
+    "url": "git+git@github.com:skreyzo/init.git"
   },
   "bugs": {
-    "url": "https://github.com/AndrewNagikh/core-express-blog-anonymous/issues"
+    "url": "git+git@github.com:skreyzo/init.git"
   },
-  "homepage": "https://github.com/AndrewNagikh/core-express-blog-anonymous#readme"
+  "homepage": "git+git@github.com:skreyzo/init.git"
 }
