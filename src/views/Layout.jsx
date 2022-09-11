@@ -24,7 +24,7 @@ module.exports = function Layout({ children, user }) {
         {user ? (
           <nav className="navbar navbar-expand-lg bg-light">
             <div className="container-fluid">
-              <a className="navbar-brand" href="#">
+              <a className="navbar-brand" href="/user">
                 {user}
               </a>
               <button
@@ -41,12 +41,12 @@ module.exports = function Layout({ children, user }) {
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">
+                    <a className="nav-link active" aria-current="page" href="/">
                       Home
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <a className="nav-link" href="/logout">
                       Logout
                     </a>
                   </li>
@@ -57,8 +57,8 @@ module.exports = function Layout({ children, user }) {
         ) : (
           <nav className="navbar navbar-expand-lg bg-light">
             <div className="container-fluid">
-              <a className="navbar-brand" href="#">
-                Navbar
+              <a className="navbar-brand" href="/">
+                DBC Auction
               </a>
               <button
                 className="navbar-toggler"
@@ -69,28 +69,22 @@ module.exports = function Layout({ children, user }) {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span class="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
               </button>
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
+            
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">
-                      Home
+                    <a className="nav-link" href="/login">
+                      Login
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Features
+                    <a className="nav-link" href="/register">
+                      Registration
                     </a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Pricing
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link disabled">Disabled</a>
-                  </li>
+             
                 </ul>
               </div>
             </div>

@@ -8,7 +8,10 @@ const FileStore = require("session-file-store")(session);
 
 const renderTemplate = require("../lib/renderReactModule");
 const dbConnectionCheck = require("../db/dbConnectionCheck");
-const { checkUserInBase } = require("../middlware/checkUserInBase.middleware");
+const {
+  checkUserInBase,
+  checkUserInBaseLogin,
+} = require("../middlware/checkUserInBase.middleware");
 
 const bcrypt = require("bcrypt");
 
@@ -16,7 +19,7 @@ const Main = require("./views/Main");
 const Login = require("./views/Login");
 const Register = require("./views/Register");
 const { User } = require("../db/models/");
-const Home = require("./views/Home");
+const UserLK = require("./views/UserLK");
 
 dbConnectionCheck();
 const app = express();
@@ -47,15 +50,20 @@ app.use(session(sessionConfig));
 app.use((req, res, next) => {
   next();
 });
-
+// рендерим главную страницу с отображением имени пользователя
 app.get("/", (req, res) => {
   const user = req.session?.user;
   renderTemplate(Main, { user }, res);
 });
 
+// рендерим  страницу регистрации с отображением имени пользователя
+
 app.get("/register", (req, res) => {
   renderTemplate(Register, {}, res);
 });
+
+// если такой пользователь не существует - то заносим пользователя в модель User,
+// а если существует  -то придет соответствующее уведомление
 
 app.post("/register", checkUserInBase, async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
@@ -67,29 +75,55 @@ app.post("/register", checkUserInBase, async (req, res) => {
       firstname,
       lastname,
     });
-    req.session.user = user.email;
+    req.session.user = user.firstname;
 
-    res.redirect("/home");
+    res.redirect("/");
   } catch (error) {
     res.send(`Error ------> ${error}`);
   }
 });
 
-app.get("/home", (req, res) => {
-  renderTemplate(Home, {}, res);
+// отображение личного кабинета пользователя
+
+app.get("/user", (req, res) => {
+  const user = req.session?.user;
+  renderTemplate(UserLK, { user }, res);
 });
 
-app.get("/login", (req, res) => {
-  renderTemplate(Login, {}, res);
+// кнопка выхода из учетной записи
+
+app.get("/logout", async (req, res) => {
+  try {
+    if (req.session.user) {
+      // * 20 убийство куки если она есть и сессии тоже
+      // * аналогия с req.session.save
+      req.session.destroy(() => {
+        res.clearCookie("examCoocie");
+        res.redirect("/");
+      });
+    } else {
+      res.redirect("/login");
+    }
+  } catch (error) {
+    res.send(`Error ------> ${error}`);
+  }
 });
 
-app.post("/login", async (req, res) => {
+app.get("/login", async (req, res) => {
+  const user = req.session?.user;
+  renderTemplate(Login, { user }, res);
+});
+
+// здесь я использую мидлварку, которая проверяет наличие юзера по почте. Но надо подправить.
+app.post("/login", checkUserInBaseLogin, async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ where: { email } });
 
     const passCheck = await bcrypt.compare(password, user.password);
     if (passCheck) {
+      req.session.user = user.firstname;
+
       res.redirect("/");
     } else {
       res.redirect("/login");
