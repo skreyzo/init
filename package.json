@@ -2,7 +2,7 @@
   "name": "p2w1d3",
   "version": "1.0.0",
   "description": "## Общие сведения",
-  "main": "index.js",
+  "main": "/src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "initdb": "npx sequelize db:create\nnpx sequelize-cli db:migrate:undo:all\nnpx sequelize-cli db:migrate\nnpx sequelize-cli db:seed:all\n",
