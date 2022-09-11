@@ -18,8 +18,9 @@ const bcrypt = require("bcrypt");
 const Main = require("./views/Main");
 const Login = require("./views/Login");
 const Register = require("./views/Register");
-const { User } = require("../db/models/");
+const { User, Item } = require("../db/models/");
 const UserLK = require("./views/UserLK");
+const { getItemDescriptor } = require("@babel/core/lib/config/item");
 
 dbConnectionCheck();
 const app = express();
@@ -88,6 +89,20 @@ app.post("/register", checkUserInBase, async (req, res) => {
 app.get("/user", (req, res) => {
   const user = req.session?.user;
   renderTemplate(UserLK, { user }, res);
+});
+
+app.post("/user", (req, res) => {
+  const { title, condition, startsat, endsat, description } = req.body;
+  const userId = req.session.user.id;
+  Item.create({
+    title,
+    condition,
+    startsat,
+    endsat,
+    description,
+    user_id: userId,
+  });
+  res.send("done");
 });
 
 // кнопка выхода из учетной записи
